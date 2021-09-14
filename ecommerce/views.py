@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.shortcuts import render
 from django.contrib.auth import authenticate
-from django.contrib.auth import login as do_login
+from django.contrib.auth import login as do_login, logout as do_logout
 from django.shortcuts import redirect
 from django.contrib import messages
 
@@ -10,9 +10,7 @@ TEMPLATES =  settings.TEMPLATES_DIR #importing templates path from Django settin
 def index(request):
     """Main entry point of the app"""
     template_dir = TEMPLATES / 'main' / 'index.html'
-    return render(request, template_dir, {
-        'message': 'holaaaa'
-    })
+    return render(request, template_dir, {'message': 'holaaaa'})
 
 
 def login(request):
@@ -34,13 +32,14 @@ def login(request):
             else:
                 print(f"No autenticado: {usr}")
                 messages.error(request, "Usuario o contraseña inválidos")
-
-
         else:
             print("no autenticado (campos vacíos)")
+    return render(request, template_dir, {})
 
 
+def logout(request):
+    """User logout"""
+    do_logout(request)
+    messages.success(request, 'Logged out')
+    return redirect('login')
 
-    return render(request, template_dir, {
-
-    })
