@@ -3,8 +3,10 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as do_login, logout as do_logout
 from django.shortcuts import redirect
+
 from django.contrib import messages
 from . forms import RegisterForm
+from django.contrib.auth.models import User
 
 TEMPLATES =  settings.TEMPLATES_DIR #importing templates path from Django settings
 
@@ -47,7 +49,21 @@ def logout(request):
 def register(request):
     """Register a new user"""
     template = TEMPLATES / 'user' / 'register.html'
-    form = RegisterForm()
+    form = RegisterForm(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        username = form.cleaned_data.get('username')
+        email = form.cleaned_data.get('email')
+        password = form.cleaned_data.get('password')
+        user = User.objects.create_user(username, email, password)
+
+        if user:
+            do_login(request, user)
+            messages.success(request, 'Usuario creado exitosamente')
+            return redirect('index')
+        else:
+            messages.error(request, 'Error creando el usuario')
+
     context = {
         'form': form
     }
