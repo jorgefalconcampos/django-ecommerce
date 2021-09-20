@@ -47,3 +47,11 @@ class RegisterForm(forms.Form):
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError('El email ya está en uso')      
         return email
+    
+    def save(self):
+        """Saves the info"""
+        return User.objects.create_user(
+            self.cleaned_data.get('username'),
+            self.cleaned_data.get('email'),
+            self.cleaned_data.get('password'),
+        )
