@@ -1,3 +1,6 @@
+{% url 'login' as login %}
+{% url 'register' as register %}
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">My Store</a>
@@ -10,20 +13,23 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">
-                  <span class="fas fa-sign-in-alt"></span>
+              <a class="nav-link {% if request.path == register %}active{%endif%}" aria-current="page" href="{{register}}">
+                <span class="fas fa-user-plus"></span>
                  Registro
                 </a>
             </li>
+            {% if user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                  <span class="fas fa-user"></span>
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == login %}active{%endif%}" aria-current="page" href="{{login}}">  
+                <span class="fas fa-user"></span>
                   Login
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Logout</a>
-              </li>
+            {% endif %}
           </ul>
       </div>
     </div>

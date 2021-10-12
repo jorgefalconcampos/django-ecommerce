@@ -18,6 +18,9 @@ def index(request):
 
 def login(request):
     """User login"""
+    if request.user.is_authenticated:
+        return redirect ('index')
+        
     template = TEMPLATES / 'user' / 'login.html'
 
     usr = request.POST.get('username')
@@ -48,6 +51,10 @@ def logout(request):
 
 def register(request):
     """Register a new user"""
+
+    if request.user.is_authenticated:
+        return redirect ('index')
+
     template = TEMPLATES / 'user' / 'register.html'
     form = RegisterForm(request.POST or None)
 
