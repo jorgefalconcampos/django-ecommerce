@@ -7,5 +7,16 @@
         {{message}}
     </p>
 
+    <ul class="list-group">
+        {% for product in products %}
+        <li class="list-group-item">
+            {{product.title}}
+            <span class="text-success">
+                {{product.price}}
+            </span>
+        </li>
+        {% endfor %}
+
+    </ul>
 
 {% endblock %}

@@ -3,24 +3,33 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as do_login, logout as do_logout
 from django.shortcuts import redirect
-
 from django.contrib import messages
 from . forms import RegisterForm
 from django.contrib.auth.models import User
+from products.models import Product
 
 TEMPLATES =  settings.TEMPLATES_DIR #importing templates path from Django settings
 
 def index(request):
     """Main entry point of the app"""
     template = TEMPLATES / 'main' / 'index.html'
-    return render(request, template, {'message': 'holaaaa'})
+
+    products = Product.objects.all().order_by('-id')
+
+    context = {
+        'message': 'listado',
+        'title': 'Productos',
+        'products': products
+    }
+
+    return render(request, template, context)
 
 
 def login(request):
     """User login"""
     if request.user.is_authenticated:
         return redirect ('index')
-        
+
     template = TEMPLATES / 'user' / 'login.html'
 
     usr = request.POST.get('username')
