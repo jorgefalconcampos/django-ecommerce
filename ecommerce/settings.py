@@ -19,9 +19,10 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
 
-PROJECT_DIR = Path(__file__).resolve().parent # ===> tycha-meme/backend/tm_project
-BASE_DIR = PROJECT_DIR.parent # ===> tycha-meme/backend
-TEMPLATES_DIR = PROJECT_DIR / 'templates' # ===> tycha-meme/backend/tm_project/templates
+PROJECT_DIR = Path(__file__).resolve().parent # ===> 
+BASE_DIR = PROJECT_DIR.parent # ===> 
+TEMPLATES_DIR = PROJECT_DIR / 'templates' # ===> project templates
+TEMPLATES_DIR_APP_PRODUCTS = BASE_DIR / 'products' / 'templates'
 
 
 # Quick-start development settings - unsuitable for production
