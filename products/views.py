@@ -4,7 +4,8 @@ from django.views.generic.detail import DetailView
 from . models import Product
 from django.conf import settings
 
-TEMPLATES = settings.TEMPLATES_DIR_APP_PRODUCTS #importing templates path from Django settings
+TEMPLATES = settings.TEMPLATES_DIR
+TEMPLATES_APP_PRODUCTS = settings.TEMPLATES_DIR_APP_PRODUCTS #importing TEMPLATES_APP_PRODUCTS path from Django settings
 
 
 
@@ -20,7 +21,7 @@ class ProductListView(ListView):
 
 class ProductDetailView(DetailView): # id => pk (by default)
     model = Product
-    template_name = TEMPLATES / 'products' / 'product.html'
+    template_name = TEMPLATES_APP_PRODUCTS / 'products' / 'product.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
