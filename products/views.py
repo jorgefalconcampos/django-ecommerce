@@ -3,6 +3,8 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from . models import Product
 from django.conf import settings
+from django.db.models import Q
+
 
 TEMPLATES = settings.TEMPLATES_DIR
 TEMPLATES_APP_PRODUCTS = settings.TEMPLATES_DIR_APP_PRODUCTS #importing TEMPLATES_APP_PRODUCTS path from Django settings
@@ -30,7 +32,8 @@ class ProductSearchListView(ListView):
     template_name = TEMPLATES_APP_PRODUCTS / 'products' / 'search.html'
     
     def get_queryset(self):
-        return Product.objects.filter(title__icontains=self.query())
+        filters = Q(title__icontains=self.query()) | Q(category__title__icontains=self.query())
+        return Product.objects.filter(filters)
 
     def query(self):
         return self.request.GET.get('q')
@@ -39,7 +42,6 @@ class ProductSearchListView(ListView):
         context = super().get_context_data(**kwargs)
         context['query'] = self.query()
         context['count'] = context['product_list' ].count()
-        
         return context
 
 
