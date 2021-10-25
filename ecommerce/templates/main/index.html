@@ -7,42 +7,8 @@
         {{message}}
     </p>
 
-    <ul class="list-group">
-        {% for product in product_list %}
+    {% include "products\snippets\search.html" %}
 
-        <div class="card h-100">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.title }}" height="300">
-            {% endif %}
-
-            <div class="card-body">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        {{product.title}}
-                    </h5>
-                    <p class="card-text">
-                        {{product.description}}  
-                        <span class="text-success">
-                            {{product.price}}
-                        </span>
-                    </p>
-                    <a href="#">Ver más</a>
-                </div>
-                <div class="card-body">
-                    
-                </div>
-
-
-            </div>
-        </div>
-        <li class="list-group-item">
-            {{product.title}}
-            <span class="text-success">
-                {{product.price}}
-            </span>
-        </li>
-        {% endfor %}
-
-    </ul>
+    {% include "products\snippets\list.html" %}
 
 {% endblock %}

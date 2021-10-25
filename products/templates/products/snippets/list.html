@@ -1,0 +1,5 @@
+<div class="row">
+    {% for product_item in product_list %}
+        {% include "products/snippets/product.html" with product=product_item %}
+    {% endfor %}
+</div>
