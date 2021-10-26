@@ -5,7 +5,8 @@ from django.contrib.auth import login as do_login, logout as do_logout
 from django.shortcuts import redirect
 from django.contrib import messages
 from . forms import RegisterForm
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from users.models import User
 from products.models import Product
 
 TEMPLATES =  settings.TEMPLATES_DIR #importing templates path from Django settings
