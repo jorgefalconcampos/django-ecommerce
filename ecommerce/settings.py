@@ -23,6 +23,7 @@ PROJECT_DIR = Path(__file__).resolve().parent # ===>
 BASE_DIR = PROJECT_DIR.parent # ===> 
 TEMPLATES_DIR = PROJECT_DIR / 'templates' # ===> project templates
 TEMPLATES_DIR_APP_PRODUCTS = BASE_DIR / 'products' / 'templates'
+TEMPLATES_DIR_APP_CART = BASE_DIR / 'carts' / 'templates'
 
 
 # Quick-start development settings - unsuitable for production

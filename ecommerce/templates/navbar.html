@@ -1,5 +1,7 @@
 {% url 'login' as login %}
 {% url 'register' as register %}
+{% url 'carts:cart' as cart %}
+
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -30,6 +32,13 @@
                 </a>
             </li>
             {% endif %}
+
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == login %}active{%endif%}" aria-current="page" href="{{cart}}">  
+                <span class="fas fa-shopping-cart"></span>
+                  Carrito
+                </a>
+            </li>
           </ul>
       </div>
     </div>
