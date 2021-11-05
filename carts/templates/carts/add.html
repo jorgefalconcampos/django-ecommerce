@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load products_extras %}
 
 {% block content %}
 
@@ -17,7 +18,7 @@
     </a>
 
     <div class="font-weight-bold text-warning">
-        ${{ product.price }}
+        {{ product.price | price_format }}
     </div>
 </div>
 
