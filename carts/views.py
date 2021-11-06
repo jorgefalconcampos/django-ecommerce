@@ -4,6 +4,7 @@ from . models import Cart
 from . utils import get_or_create_cart
 from . models import Product
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
 
 
 TEMPLATES = settings.TEMPLATES_DIR
@@ -25,16 +26,14 @@ def cart(request):
 def add(request):
     template_name = TEMPLATES_APP_CARTS / 'carts' / 'add.html'
     cart = get_or_create_cart(request)
-    product = Product.objects.get(pk=request.POST.get('product_id'))
+    product = get_object_or_404(Product, pk=request.POST.get('product_id'))
     cart.products.add(product)
     context = { 'product': product }
     return render(request, template_name, context)
 
 def remove(request):
     cart = get_or_create_cart(request)
-    product = Product.objects.get(pk=request.POST.get('product_id'))
-
+    product = get_object_or_404(Product, pk=request.POST.get('product_id'))
     cart.products.remove(product)
-
     return redirect('carts:cart')
 
