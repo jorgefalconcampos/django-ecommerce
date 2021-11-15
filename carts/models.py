@@ -24,6 +24,12 @@ class Cart(models.Model):
 
     def update_totals(self):
         self.update_subtotals()
+        self.update_total()
+
+        order = self.order_set.first() 
+
+        if order:
+            order.update_total()
 
     def update_subtotals(self):
         self.subtotal = sum([
