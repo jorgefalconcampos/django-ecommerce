@@ -8,6 +8,9 @@ from . forms import RegisterForm
 # from django.contrib.auth.models import User
 from users.models import User
 from products.models import Product
+from django.http import HttpResponseRedirect
+
+
 
 TEMPLATES =  settings.TEMPLATES_DIR #importing templates path from Django settings
 
@@ -44,6 +47,10 @@ def login(request):
                 do_login(request, user_auth)
                 print(f"\nSession created for the user: {usr}\n")
                 messages.success(request, f"Bienvenido {usr}")
+
+                if request.GET.get('next'):
+                    return HttpResponseRedirect(request.GET['next'])
+
                 return redirect('index')
             else:
                 print(f"No autenticado: {usr}")
