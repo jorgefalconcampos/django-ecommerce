@@ -7,6 +7,14 @@ class User(AbstractUser):
     def get_full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
+    @property
+    def shipping_address(self):
+        return self.shippingadresses_set.filter(is_default=True).first()
+
+    def has_shipping_address(self):
+        return self.shipping_address is not None
+
+
 
 # proxy model: to extend functionalities
 class Customer(User):

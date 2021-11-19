@@ -8,4 +8,5 @@ urlpatterns = [
     path('nuevo', views.create, name='create'),
     path('editar/<int:pk>', views.ShippingAdressesUpdateView.as_view(), name='update'),
     path('eliminar/<int:pk>', views.ShippingAdressesDeleteView.as_view(), name='delete'),
+    path('default/<int:pk>', views.default, name='default'),
 ]

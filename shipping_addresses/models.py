@@ -18,6 +18,12 @@ class ShippingAdresses(models.Model):
     def __str__(self):
         return self.zip_code
 
+    def update_default(self, default=False):
+        self.is_default = default
+        self.save()
+
     @property    
     def address(self):
         return f"{self.city} - {self.state} - {self.country}"
+
+    

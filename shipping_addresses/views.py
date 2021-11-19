@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.views.generic import ListView
-from django.views.generic import UpdateView, DeleteView
+from django.views.generic import UpdateView
+from django.views.generic import DeleteView
 from . models import ShippingAdresses
 from . forms import ShippingAdressesForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -54,7 +56,7 @@ class ShippingAdressesUpdateView(LoginRequiredMixin, SuccessMessageMixin, Update
         if request.user.id != self.get_object().user_id:
             return redirect('carts:cart')
 
-        return super(ShippingAddressUpdateView, self).dispatch(request, *args, **kwargs)
+        return super(ShippingAdressesUpdateView, self).dispatch(request, *args, **kwargs)
 
 
 
@@ -67,7 +69,7 @@ def create(request):
     if request.method == 'POST' and form.is_valid():
         shipping_address = form.save(commit=False) # when commit=False a shipping address instance is created, but it's not persisted
         shipping_address.user = request.user
-        shipping_address.is_default = not ShippingAdresses.objects.filter(user=request.user).exists()
+        shipping_address.is_default = not request.user.has_shipping_address()
 
         shipping_address.save() #persisting the instance
 
@@ -77,3 +79,18 @@ def create(request):
     return render(request, 'shipping_addresses/create.html', {
         'form': form
     })
+
+
+@login_required(login_url='login')
+def default(request, pk):
+    shipping_address = get_object_or_404(ShippingAdresses, pk=pk)
+
+    if request.user.id != shipping_address.user_id:
+        return redirect('carts:cart')
+
+    if request.user.has_shipping_address():
+        request.user.shipping_address.update_default()
+
+    shipping_address.update_default(True)
+
+    return redirect('shipping_addresses:shipping_addresses')
