@@ -7,6 +7,12 @@
     </div>
     <a href="{% url 'shipping_addresses:create' %}">Agregar nueva dirección</a>
 
+    <div class="mt-2">
+        {% for shipping_address in object_list %}
+            {% include 'shipping_addresses/snippets/shipping_address.html' %}
+        {% endfor %}
+
+    </div>
 
 </div>
 

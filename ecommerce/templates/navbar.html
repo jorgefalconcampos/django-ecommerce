@@ -40,12 +40,14 @@
                   Carrito
                 </a>
             </li>
+            {% if user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link {% if request.path == shipping_addresses %}active{%endif%}" aria-current="page" href="{{shipping_addresses}}">  
                 <span class="fas fa-location-arrow"></span>
-                  Mis direcciones
-                </a>
+                Mis direcciones
+              </a>
             </li>
+            {% endif %}
           </ul>
       </div>
     </div>
