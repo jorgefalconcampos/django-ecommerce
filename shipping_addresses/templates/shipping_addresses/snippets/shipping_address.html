@@ -7,7 +7,9 @@
             <div class="card-title">{{ shipping_address.reference }}</div>
             <div class="card-title">{{ shipping_address.zip_code }}</div>
 
+            {% if edit %}
             <a href="{% url 'shipping_addresses:update' shipping_address.pk %}" class="btn btn-info">Editar</a>
+            {% endif %}
 
             {% if shipping_address.is_default %}
             <div class="text-info">Dirección principal</div>
