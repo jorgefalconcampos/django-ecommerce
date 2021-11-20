@@ -18,6 +18,9 @@ class ShippingAdresses(models.Model):
     def __str__(self):
         return self.zip_code
 
+    def has_orders(self):
+        return self.order_set.count() >= 1
+
     def update_default(self, default=False):
         self.is_default = default
         self.save()
