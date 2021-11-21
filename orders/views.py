@@ -11,6 +11,8 @@ from orders.utils import destroy_order
 from django.shortcuts import get_object_or_404
 from . models import Order
 from shipping_addresses.models import ShippingAdresses
+from . mails import Mail
+
 
 # Create your views here.
 
@@ -108,6 +110,8 @@ def complete(request):
         return redirect('carts:cart')
 
     order.complete()
+
+    Mail.send_complete_order(order, request.user)
 
     destroy_cart(request)
     destroy_order(request)
