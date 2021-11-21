@@ -5,7 +5,7 @@ from django.db.models.signals import pre_save, post_save
 from django.db.models.signals import m2m_changed
 from users.models import User
 from products.models import Product
-
+from orders.common import OrderStatus
 
 # Create your models here.
 
@@ -44,7 +44,7 @@ class Cart(models.Model):
 
     @property
     def order(self):
-        return self.order_set.first()
+        return self.order_set.filter(status=OrderStatus.CREATED).first()
 
 
 class CartProductsManager(models.Manager):
