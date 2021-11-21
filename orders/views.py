@@ -4,6 +4,10 @@ from carts.utils import get_or_create_cart
 from . models import Order
 from . utils import get_or_create_order, breadcrumb
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from . utils import destroy_order
+from carts.utils import destroy_cart
+from orders.utils import destroy_order
 from django.shortcuts import get_object_or_404
 from . models import Order
 from shipping_addresses.models import ShippingAdresses
@@ -77,3 +81,20 @@ def confirm(request):
         'order': order,
         'shipping_address': shipping_address
     })
+
+@login_required(login_url='login')
+def cancel(request):
+    cart = get_or_create_cart(request)
+    order = get_or_create_order(cart, request)
+
+    if request.user.id != order.user_id:
+        return redirect('carts:cart')
+
+    order.cancel()
+
+    destroy_cart(request)
+    destroy_order(request)
+
+    messages.success(request, 'Orden cancelada con éxito')
+
+    return redirect('index')
