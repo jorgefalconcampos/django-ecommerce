@@ -18,6 +18,8 @@
         <a href="{% url 'orders:select_address' %}">Otra dirección</a>
         {% endif %}
 
+        <a href="{% url 'orders:confirm' %}" class="btn btn-warning">Entregar a esta dirección</a>
+
     </div>
     {% else %}
     <div class="h3">

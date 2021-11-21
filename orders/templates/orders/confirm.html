@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+{% include 'orders/snippets/breadcrumb.html' %}
+{% endblock %}
+
+{% block content %}
+
+<div class="col-8">
+    <div class="h3">
+        Confirma tu pedido
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <b>Dirección de envío:</b>
+                    <div class="card-text">{{ shipping_address.address }}</div>
+                    <div class="card-text">{{ shipping_address.line1 }}</div>
+                    <div class="card-text">{{ shipping_address.line2 }}</div>
+                    <div class="card-text">{{ shipping_address.reference }}</div>
+                    <div class="card-text">{{ shipping_address.zip_code }}</div>
+                </div>
+                <div class="col-4">
+                    <b>Método de pago:</b>
+                    <div class="card-text">Tarjeta terminación ***4242</div>
+                </div>
+                <div class="col-4">
+                    <b>Código promocional:</b>
+                    <form action="">
+                        <input type="text" name="code" value="" class="form-control" placeholder="Código promocional"> 
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            {% for product in cart.products.all %}
+                {% include 'orders/snippets/product.html' %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="col">
+    {% include 'orders/snippets/resume.html' %}
+    <div class="mt-2">
+        <a href="#" class="btn btn-danger">Cancelar orden</a>
+    </div>
+</div>
+
+{% endblock %}
