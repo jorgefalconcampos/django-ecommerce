@@ -11,5 +11,6 @@ urlpatterns = [
     path('seleccionar/direccion', views.select_address, name='select_address'),
     path('establecer/direccion/<int:pk>', views.check_address, name='check_address'),
     path('confirmacion', views.confirm, name='confirm'),
-    path('cancelar', views.cancel, name='cancel')
+    path('cancelar', views.cancel, name='cancel'),
+    path('completar', views.complete, name='complete')
 ]
