@@ -12,9 +12,17 @@ from django.shortcuts import get_object_or_404
 from . models import Order
 from shipping_addresses.models import ShippingAdresses
 from . mails import Mail
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.views.generic.list import ListView
+from django.db.models.query import EmptyQuerySet
 
+class OrderListView(LoginRequiredMixin, ListView):
+    login_url = 'login'
+    template_name = 'orders/orders.html'
 
-# Create your views here.
+    def get_queryset(self):
+        return self.request.user.orders_completed()
 
 @login_required(login_url='login')
 def order (request):

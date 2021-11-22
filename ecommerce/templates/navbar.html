@@ -2,7 +2,7 @@
 {% url 'register' as register %}
 {% url 'carts:cart' as cart %}
 {% url 'shipping_addresses:shipping_addresses' as shipping_addresses %}
-
+{% url 'orders:completed' as completed %}
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -16,7 +16,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link {% if request.path == register %}active{%endif%}" aria-current="page" href="{{register}}">
+              <a class="nav-link {% if request.path == register %}active{%endif%}" aria-current="page" href="{{ register }}">
                 <span class="fas fa-user-plus"></span>
                  Registro
                 </a>
@@ -27,7 +27,7 @@
             </li>
             {% else %}
             <li class="nav-item">
-              <a class="nav-link {% if request.path == login %}active{%endif%}" aria-current="page" href="{{login}}">  
+              <a class="nav-link {% if request.path == login %}active{%endif%}" aria-current="page" href="{{ login }}">  
                 <span class="fas fa-user"></span>
                   Login
                 </a>
@@ -35,16 +35,23 @@
             {% endif %}
 
             <li class="nav-item">
-              <a class="nav-link {% if request.path == cart %}active{%endif%}" aria-current="page" href="{{cart}}">  
+              <a class="nav-link {% if request.path == cart %}active{%endif%}" aria-current="page" href="{{ cart }}">  
                 <span class="fas fa-shopping-cart"></span>
                   Carrito
                 </a>
             </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link {% if request.path == shipping_addresses %}active{%endif%}" aria-current="page" href="{{shipping_addresses}}">  
+              <a class="nav-link {% if request.path == shipping_addresses %}active{%endif%}" aria-current="page" href="{{ shipping_addresses }}">  
                 <span class="fas fa-location-arrow"></span>
                 Mis direcciones
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == completed %}active{%endif%}" aria-current="page" href="{{ completed }}">  
+                <span class="fas fa-shipping-fast"></span>
+                Mis pedidos
               </a>
             </li>
             {% endif %}
