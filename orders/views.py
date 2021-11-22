@@ -16,6 +16,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
 from django.db.models.query import EmptyQuerySet
+from . decorators import validate_cart_and_order
+
 
 class OrderListView(LoginRequiredMixin, ListView):
     login_url = 'login'
@@ -24,27 +26,22 @@ class OrderListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return self.request.user.orders_completed()
 
+
 @login_required(login_url='login')
-def order (request):
-    cart = get_or_create_cart(request)
-    order = get_or_create_order(cart, request)
-
-
+@validate_cart_and_order
+def order (request, cart, order):
     return render(request, 'orders/order.html', {
         'cart': cart,
         'order': order,
         'breadcrumb': breadcrumb()
     })
 
+
 @login_required(login_url='login')
-def address(request):
-    cart = get_or_create_cart(request)
-    order = get_or_create_order(cart, request)
-
+@validate_cart_and_order
+def address(request, cart, order):
     shipping_address = order.get_or_set_shipping_address()
-
     can_choose_address = request.user.shippingadresses_set.count() > 1
-
 
     return render(request, 'orders/address.html', {
         'cart': cart,
@@ -53,6 +50,7 @@ def address(request):
         'can_choose_address': can_choose_address,
         'breadcrumb': breadcrumb(address=True)
     })
+
 
 @login_required(login_url='login')
 def select_address(request):
@@ -65,9 +63,8 @@ def select_address(request):
 
 
 @login_required(login_url='login')
-def check_address(request, pk):
-    cart = get_or_create_cart(request)
-    order = get_or_create_order(cart, request)
+@validate_cart_and_order
+def check_address(request, cart, order, pk):
     shipping_address = get_object_or_404(ShippingAdresses, pk=pk)
 
     if request.user.id != shipping_address.user_id:
@@ -77,11 +74,10 @@ def check_address(request, pk):
 
     return redirect('orders:address')
 
-@login_required(login_url='login')
-def confirm(request):
-    cart = get_or_create_cart(request)
-    order = get_or_create_order(cart, request)
 
+@login_required(login_url='login')
+@validate_cart_and_order
+def confirm(request, cart, order):
     shipping_address = order.shipping_address
     if shipping_address is None:
         return redirect('orders:address')
@@ -93,9 +89,8 @@ def confirm(request):
     })
 
 @login_required(login_url='login')
-def cancel(request):
-    cart = get_or_create_cart(request)
-    order = get_or_create_order(cart, request)
+@validate_cart_and_order
+def cancel(request, cart, order):
 
     if request.user.id != order.user_id:
         return redirect('carts:cart')
@@ -109,10 +104,10 @@ def cancel(request):
 
     return redirect('index')
 
+
 @login_required(login_url='login')
-def complete(request):
-    cart = get_or_create_cart(request)
-    order = get_or_create_order(cart, request)
+@validate_cart_and_order
+def complete(request, cart, order):
 
     if request.user.id != order.user_id:
         return redirect('carts:cart')
