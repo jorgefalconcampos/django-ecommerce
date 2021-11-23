@@ -1,3 +1,4 @@
+import threading
 from django.shortcuts import redirect
 from django.shortcuts import render
 from carts.utils import get_or_create_cart
@@ -114,7 +115,13 @@ def complete(request, cart, order):
 
     order.complete()
 
-    Mail.send_complete_order(order, request.user)
+    thread = threading.Thread(target=Mail.send_complete_order, args=(
+        order, request.user
+    ))
+
+    # Mail.send_complete_order(order, request.user)
+
+    thread.start()
 
     destroy_cart(request)
     destroy_order(request)
