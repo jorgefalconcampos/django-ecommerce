@@ -11,12 +11,20 @@ class User(AbstractUser):
     def shipping_address(self):
         return self.shippingadresses_set.filter(is_default=True).first()
 
+    # if has a main address
     def has_shipping_address(self):
         return self.shipping_address is not None
 
     def orders_completed(self):
         return self.order_set.filter(status=OrderStatus.COMPLETED).order_by('-id')
 
+    # if has addresses
+    def has_shipping_addresses(self):
+        return self.shippingadresses_set.exists()
+
+    @property
+    def addresses(self):
+        return self.shippingadresses_set.all()
 
 
 # proxy model: to extend functionalities

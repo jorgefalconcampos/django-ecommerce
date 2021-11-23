@@ -7,7 +7,7 @@ from django.urls import reverse
 class Mail:
 
     def get_absolute_url(url):
-        if settins.DEBUG:
+        if settings.DEBUG:
             return 'http://localhost:8000{}'.format(
                 reverse(url)
             )
