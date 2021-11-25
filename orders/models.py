@@ -1,3 +1,4 @@
+import decimal
 import uuid
 from django.db import models
 from users.models import User
@@ -6,6 +7,7 @@ from django.db.models.signals import pre_save
 from shipping_addresses.models import ShippingAdresses
 from .common import OrderStatus
 from .common import choices
+from promo_code.models import PromoCode
 
 
 # Create your models here.
@@ -20,10 +22,20 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     shipping_address = models.ForeignKey(ShippingAdresses, null=True, blank=True, on_delete=models.CASCADE)
+
+    promo_code = models.OneToOneField(PromoCode, null=True, blank=True, on_delete=models.CASCADE)
     
 
     def __str__(self): 
         return self.order_id
+
+    def apply_promo_code(self, promo_code):
+        if self.promo_code is None:
+            self.promo_code = promo_code
+            self.save()
+            
+            self.update_total()
+            promo_code.use()
 
     def get_or_set_shipping_address(self):
         if self.shipping_address:
@@ -51,9 +63,19 @@ class Order(models.Model):
     def update_total(self):
         self.total = self.get_total()
         self.save()
-    
+
+    def get_discount(self):
+        if self.promo_code:
+            return self.promo_code.discount
+
+        return 0
+
+
     def get_total(self):
-        return self.cart.total + self.shipping_total
+        print(f"total: {self.cart.total}")
+
+        print(f"descuento de: {self.get_discount()}")
+        return self.cart.total + self.shipping_total - decimal.Decimal(self.get_discount())
 
 
 def set_order_id(sender, instance, *args, **kwargs):
