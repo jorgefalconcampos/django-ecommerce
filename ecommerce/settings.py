@@ -145,6 +145,9 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 
 
+STRIPE_PUBLIC_KEY = 'pk_test_51K0JiIKvPSKucLtplMEHqX98IpGXHudwJzGGWQkPeKKSVILspXhzyyGjco14MSHCwC2A425OkpsBsblGqFF3XcrL00MXIRrOsV'
+STRIPE_PRIVATE_KEY = os.getenv('STRIPE_PRIVATE_KEY')
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
