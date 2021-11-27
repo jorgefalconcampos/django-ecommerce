@@ -8,13 +8,10 @@ from django.db.models.signals import pre_save
 
 
 class PromoCodeManager(models.Manager):
-
-    """Validates the"""
+    
     def get_valid(self, code):
         now = timezone.now()
-
         return self.filter(code=code).filter(used=False).filter(valid_from__lte=now).filter(valid_to__gte=now).first()
-
 
 
 class PromoCode(models.Model):
